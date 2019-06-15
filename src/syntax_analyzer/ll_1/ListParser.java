@@ -5,22 +5,31 @@ import lexical_analyzer.ListLexer;
 
 public class ListParser extends Parser {
     /* constructors */
+    /**
+     * @param input
+     */
     public ListParser(Lexer input) {
         super(input);
     }
     /* member functions */
-    /** list : '[' elements ']' ; */
+    /**
+     * list : '[' elements ']' ;
+     */
     public void list() {
         match(ListLexer.LBRACK); elements(); match(ListLexer.RBRACK);
     }
-    /** elements : element (',' element)* ; */
+    /**
+     * elements : element (',' element)* ;
+     */
     void elements(){
         element();
         while ( lookahead.type == ListLexer.COMMA ){
             match(ListLexer.COMMA); elements();
         }
     }
-    /** element : NAME | list ; */
+    /**
+     * element : NAME | list ;
+     */
     void element(){
         if ( lookahead.type == ListLexer.NAME ) match(ListLexer.NAME);
         else if ( lookahead.type == ListLexer.LBRACK ) list();
